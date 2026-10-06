@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LectureLens — Bangla/Banglish Multimodal Lecture Summarizer</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ecf8f1;--bg2:#dff2e8;--card:#fff;--line:#c3dfd0;--tx:#0f2a24;--mut:#48645a;--a:#0d9488;--b:#b45309;--c:#5b6cf0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font:17px/1.7 'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif}
+.bn{font-family:'Hind Siliguri','Plus Jakarta Sans',sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:auto;padding:0 22px}
+nav{position:fixed;inset:0 0 auto;z-index:20;background:rgba(236,248,241,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-weight:800;font-size:21px}.logo i{color:var(--a);font-style:normal}
+.links{display:flex;gap:26px;font-size:15px;color:var(--mut)}.links a:hover{color:#fff}
+.btn{border:1px solid var(--line);background:transparent;color:var(--tx);padding:9px 20px;border-radius:10px;font:600 15px inherit;font-family:inherit;cursor:pointer;transition:.2s}
+.btn:hover{border-color:var(--a);transform:translateY(-2px)}
+.btn.p{background:linear-gradient(135deg,var(--a),#22a6e8);color:#fff;border:0}
+.btn.p:hover{box-shadow:0 8px 28px rgba(13,148,136,.35)}
+#hero{min-height:100vh;display:grid;place-items:center;padding-top:80px;position:relative;overflow:hidden;background:radial-gradient(900px 500px at 75% 40%,#34d39955,transparent),var(--bg)}
+#hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+.tag{display:inline-block;font-size:13px;letter-spacing:.08em;color:var(--a);border:1px solid #2dd4bf55;padding:4px 14px;border-radius:99px;margin-bottom:18px}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.12;font-weight:800;margin-bottom:18px}
+h1 span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;color:transparent}
+.lead{color:var(--mut);font-size:18px;max-width:560px;margin-bottom:28px}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+#cv{width:100%;aspect-ratio:1;max-height:560px}
+.stats{display:flex;gap:34px;margin-top:38px}.stats b{display:block;font-size:26px;color:var(--b)}.stats small{color:var(--mut);font-size:14px}
+section{padding:90px 0}.alt{background:var(--bg2)}
+h2{font-size:clamp(28px,3.4vw,40px);font-weight:800;margin-bottom:10px}
+.sub{color:var(--mut);max-width:680px;margin-bottom:38px}
+.rv{opacity:0;transform:translateY(34px);transition:1s cubic-bezier(.2,.7,.2,1)}.rv.on{opacity:1;transform:none}
+.tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tabs button{background:var(--card);border:1px solid var(--line);color:var(--mut);padding:10px 20px;border-radius:10px;cursor:pointer;font:600 15px inherit;font-family:inherit}
+.tabs button.on{color:#fff;background:var(--a);border-color:var(--a)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;transition:transform .25s,border-color .25s;transform-style:preserve-3d}
+.card{box-shadow:0 6px 22px rgba(13,90,70,.08)}.card:hover{border-color:var(--a)}
+.card h3{font-size:19px;margin-bottom:6px}.card p{color:var(--mut);font-size:15.5px}
+.lab{font-size:12.5px;letter-spacing:.1em;color:var(--b);font-weight:800;margin-bottom:8px}
+.box{min-height:120px;font-size:18px}
+.chip{display:inline-block;background:#2dd4bf22;color:var(--a);border-radius:8px;padding:0 8px;font-weight:600}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;position:relative}
+.flow .card{padding:18px;text-align:center}.flow .n{width:38px;height:38px;border-radius:50%;background:var(--a);color:#fff;font-weight:800;display:grid;place-items:center;margin:0 auto 10px}
+.flow .card h3{font-size:16px}.flow .card p{font-size:14px}
+.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden;margin:16px 0}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--b));transition:width .4s}
+.steps{display:flex;gap:8px;flex-wrap:wrap;font-size:13.5px;margin-bottom:6px}.steps span{padding:3px 12px;border-radius:99px;border:1px solid var(--line);color:var(--mut)}.steps span.on{border-color:var(--a);color:var(--a)}
+.drop{border:2px dashed var(--line);border-radius:16px;padding:34px;text-align:center;cursor:pointer;transition:.2s}.drop:hover,.drop.h{border-color:var(--a);background:#2dd4bf10}
+select{background:var(--bg);color:var(--tx);border:1px solid var(--line);padding:10px 14px;border-radius:10px;font:inherit;margin:14px 10px 0 0}
+video{width:100%;border-radius:12px;background:#000;max-height:260px}
+.lock{position:absolute;inset:0;background:rgba(236,248,241,.94);backdrop-filter:blur(4px);display:grid;place-items:center;text-align:center;border-radius:16px;z-index:3}
+.feat{font-size:15px}.feat h3{font-size:16px;color:var(--a);margin-bottom:6px}.feat li{list-style:none;padding:3px 0;color:var(--mut)}.feat li:before{content:"✓ ";color:var(--b)}
+.rq b{color:var(--b)}
+#lib .it{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:10px 0;font-size:15px}
+.modal{position:fixed;inset:0;background:rgba(15,42,36,.55);z-index:50;display:none;place-items:center;padding:20px}.modal.on{display:grid}
+.mb{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px;width:100%;max-width:400px;animation:pop .35s}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(20px)}}
+.mb input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--tx);padding:12px 14px;border-radius:10px;font:inherit;margin:6px 0 12px}
+.mb input:focus{outline:0;border-color:var(--a)}.err{color:#fb7185;font-size:14px;min-height:22px}
+footer{padding:36px 0;border-top:1px solid var(--line);color:var(--mut);font-size:14px;text-align:center}
+
+.stats{flex-wrap:wrap;gap:16px 34px}.stats b{font-size:20px}
+.pl{background:#0b2a2e;border-radius:18px;padding:20px;color:#e8fff8}.ph{display:flex;justify-content:space-between;gap:10px;font-size:13px;letter-spacing:.08em;color:#9be7d6;flex-wrap:wrap;margin-bottom:10px}.live{color:#fb7185}
+#wv{width:100%;height:170px;display:block}#sc{width:100%;accent-color:#2dd4bf;margin-top:10px}
+.tb table{width:100%;border-collapse:collapse;min-width:640px}.tb th{font-size:12.5px;letter-spacing:.08em;color:var(--mut);text-align:left;padding:10px}.tb td{padding:12px 10px;border-top:1px solid var(--line);font-size:15px;vertical-align:top}
+.tb td b{color:var(--a)}.tb .bar{margin:6px 0 0}.tb .bar i{transition:width 1.3s}.rv.on .tb .bar i,.tb.rv.on .bar i{width:var(--w)}.tb .bad i{background:#e5484d}
+.note{font-size:13.5px;color:var(--mut);margin-top:12px}
+section,header{scroll-margin-top:66px}
+@media(max-width:900px){#hero .wrap,.g2,.g3{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}.links{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a href="#hero" class="logo">Lecture<i>Lens</i></a>
+<div class="links"><a href="#demo">Why slides</a><a href="#player">Player</a><a href="#pipeline">Pipeline</a><a href="#studio">Studio</a><a href="#results">Results</a><a href="#features">Features</a><a href="#research">Research</a></div>
+<div id="auth"></div></div></nav>
+
+<header id="hero"><div class="wrap">
+<div><span class="tag">REAL-TIME · MULTIMODAL · BANGLA/BANGLISH</span>
+<h1>দীর্ঘ লেকচার, <span>এক নজরে সারাংশ</span></h1>
+<p class="lead">LectureLens listens to the lecturer, reads the slide and whiteboard, aligns both on one timeline, and writes a Bangla summary that updates while the class is still going.</p>
+<div class="row"><button class="btn p" onclick="go('studio')">Try the Studio</button><button class="btn" onclick="go('demo')">See how it works</button></div>
+<div class="stats"><div><b>Bangla + English</b><small>languages</small></div><div><b>3</b><small>experiment configs</small></div><div><b>6</b><small>pipeline stages</small></div><div><b>Latency-aware</b><small>real-time target</small></div></div></div>
+<canvas id="cv"></canvas></div></header>
+
+<section id="demo" class="alt"><div class="wrap">
+<h2 class="rv">Why the slide matters</h2>
+<p class="sub rv">The lecturer says “তিনটা algorithm”, but only the slide names them. Switch the configuration and watch the summary change.</p>
+<div class="tabs rv" id="tabs"><button class="on" data-k="0">E1 · Audio only</button><button data-k="1">E2 · Audio + OCR</button><button data-k="2">E3 · Full multimodal</button></div>
+<div class="g3 rv">
+<div class="card"><div class="lab">SPEECH (ASR)</div><div class="box bn" id="dA"></div></div>
+<div class="card"><div class="lab">SLIDE / WHITEBOARD (OCR)</div><div class="box" id="dO"></div></div>
+<div class="card" style="border-color:var(--a)"><div class="lab">LIVE SUMMARY</div><div class="box bn" id="dS"></div></div></div>
+</div></section>
+
+<section id="player"><div class="wrap">
+<h2 class="rv">Live lecture player</h2>
+<p class="sub rv">Press play or drag the timeline. Speech, slide text and the growing summary stay in sync. Change the configuration to see what each one misses.</p>
+<div class="tabs rv" id="ptabs"><button data-k="0">E1 · Audio only</button><button data-k="1">E2 · Audio + OCR</button><button class="on" data-k="2">E3 · Full multimodal</button></div>
+<div class="pl rv"><div class="ph"><span class="live">● LIVE PIPELINE</span><span>CS-201 · TIME COMPLEXITY</span><span id="tm">0:00 / 0:48</span></div>
+<canvas id="wv"></canvas><input type="range" id="sc" min="0" max="480" value="0" aria-label="Timeline">
+<div class="row" style="margin-top:12px"><button class="btn p" id="pp">▶ Play</button><button class="btn" id="rs" style="background:#fff">↻ Restart</button></div></div>
+<div class="g3 rv" style="margin-top:20px">
+<div class="card"><div class="lab">AUDIO · WHISPER ASR</div><div class="box bn" id="pA">—</div></div>
+<div class="card"><div class="lab">OCR · SLIDE / WHITEBOARD</div><div class="box" id="pO" style="font-family:monospace">—</div></div>
+<div class="card" style="border-color:var(--a)"><div class="lab">BANGLA SUMMARY · LIVE</div><div class="box bn" id="pS">—</div></div></div>
+</div></section>
+
+<section id="pipeline"><div class="wrap">
+<h2 class="rv">System pipeline</h2>
+<p class="sub rv">Two branches run independently and join at alignment, so the audio-only baseline is simply the visual branch switched off.</p>
+<div class="flow rv" id="flow"></div>
+</div></section>
+
+<section id="studio" class="alt"><div class="wrap">
+<h2 class="rv">Studio</h2>
+<p class="sub rv">Upload a lecture, pick a configuration and follow each stage. Sign in to use it.</p>
+<div class="g2 rv" style="position:relative">
+<div class="card"><div class="drop" id="drop"><b>Drop a lecture video here</b><p>or click to browse (MP4, WebM)</p></div>
+<input type="file" id="file" accept="video/*" hidden>
+<video id="vid" controls hidden></video>
+<label class="btn" style="display:inline-block;margin:14px 10px 0 0;cursor:pointer">＋ Slide images (optional)<input type="file" id="imgs" accept="image/*" multiple hidden></label><small id="ic" style="color:var(--mut)"></small><br><select id="cfg"><option value="0">E1 · Audio only</option><option value="1">E2 · Audio + OCR</option><option value="2" selected>E3 · Full multimodal</option></select>
+<button class="btn p" id="run">Start processing</button>
+<div class="bar"><i id="pb"></i></div><div class="steps" id="st"></div></div>
+<div class="card"><div class="lab">RUNNING TRANSCRIPT</div><div class="box bn" id="oT" style="min-height:70px">—</div>
+<div class="lab">TEXT ON SLIDE</div><div class="box" id="oO" style="min-height:50px">—</div>
+<div class="lab">LIVE SUMMARY</div><div class="box bn" id="oS" style="min-height:70px">—</div>
+<button class="btn" id="dl" hidden>Download summary (.txt)</button></div>
+<div class="lock" id="lock"><div><h3 style="margin-bottom:10px">Sign in to open the Studio</h3><button class="btn p" onclick="openM('login')">Login</button> <button class="btn" onclick="openM('signup')">Sign up</button></div></div>
+</div>
+<div class="card rv" id="lib" style="margin-top:20px"><h3>My lecture library</h3><div id="libL"><p>Nothing yet.</p></div></div>
+</div></section>
+
+<section id="results" class="alt"><div class="wrap">
+<h2 class="rv">Evaluation results</h2>
+<p class="sub rv">The three configurations are compared under identical conditions on summary quality, transcription error and latency.</p>
+<div class="card rv tb" style="overflow-x:auto"><table><thead><tr><th>METRIC</th><th>WHAT IT MEASURES</th><th>E1 · AUDIO</th><th>E2 · AUDIO+OCR</th><th>E3 · FULL</th></tr></thead><tbody id="mtb"></tbody></table></div>
+<p class="note">Values shown are illustrative placeholders for the layout. Replace them with your real experiment results before submission. WER and CER stay the same across configs because the ASR branch is unchanged.</p>
+</div></section>
+
+<section id="features"><div class="wrap">
+<h2 class="rv">Built for every learner</h2>
+<p class="sub rv">Core features are implemented in this thesis; the rest is the product vision.</p>
+<div class="g3" id="fg"></div>
+</div></section>
+
+<section id="research" class="alt"><div class="wrap">
+<h2 class="rv">Research questions</h2><p class="sub rv">A controlled comparison, with honest latency reporting.</p>
+<div class="g3 rv rq">
+<div class="card"><h3><b>RQ1</b> Does slide text help?</h3><p>Slide and whiteboard text versus audio-only, measured with ROUGE and BERTScore.</p></div>
+<div class="card"><h3><b>RQ2</b> How good is the ASR?</h3><p>Whisper on Banglish with English technical terms, across speaking styles, using WER and CER.</p></div>
+<div class="card"><h3><b>RQ3</b> Can it keep pace?</h3><p>Incremental summaries within a latency budget that follows the lecture.</p></div></div>
+</div></section>
+
+<footer>LectureLens · Real-Time Multimodal Summarization of Bangla/Banglish Educational Videos · Project Proposal, September 2026</footer>
+
+<div class="modal" id="m"><div class="mb"><h3 id="mt" style="margin-bottom:12px"></h3>
+<div id="nmW"><label>Full name</label><input id="nm" autocomplete="name"></div>
+<label>Email</label><input id="em" type="email" autocomplete="email">
+<label>Password (6+ characters)</label><input id="pw" type="password" autocomplete="current-password">
+<div class="err" id="er"></div>
+<button class="btn p" style="width:100%" id="sub"></button>
+<p style="text-align:center;margin-top:12px;font-size:14px"><a href="#" id="sw" style="color:var(--a)"></a> · <a href="#" onclick="closeM();return false" style="color:var(--mut)">Close</a></p></div></div>
+
+<script>
+const $=s=>document.querySelector(s),go=id=>document.getElementById(id).scrollIntoView();
+/* ---------- 3D hero: two streams (speech + slide text) merge into one sphere ---------- */
+(()=>{const c=$('#cv'),x=c.getContext('2d');let W,H,mx=0,my=0,t=0;const P=[];
+for(let i=0;i<230;i++){const k=(i+.5)/230,ph=Math.acos(1-2*k),th=Math.PI*(1+5**.5)*i;
+P.push({x:Math.cos(th)*Math.sin(ph),y:Math.cos(ph),z:Math.sin(th)*Math.sin(ph),s:i%2})}
+function rs(){const d=devicePixelRatio||1;W=c.clientWidth;H=c.clientHeight;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0)}
+addEventListener('resize',rs);rs();
+addEventListener('pointermove',e=>{mx=(e.clientX/innerWidth-.5)*.8;my=(e.clientY/innerHeight-.5)*.8});
+function fr(){t+=.006;x.clearRect(0,0,W,H);const R=Math.min(W,H)*.3,q=[];
+const ay=t+mx,ax=.35+my*.5,ca=Math.cos(ay),sa=Math.sin(ay),cb=Math.cos(ax),sb=Math.sin(ax);
+for(const p of P){const pulse=1+.06*Math.sin(t*5+p.y*4);let X=p.x*ca+p.z*sa,Z=-p.x*sa+p.z*ca,Y=p.y*cb-Z*sb;Z=p.y*sb+Z*cb;
+q.push({X:X*pulse,Y:Y*pulse,Z,s:p.s,sx:W/2+X*R*pulse,sy:H/2+Y*R*pulse})}
+x.lineWidth=1;
+for(let i=0;i<q.length;i++)for(let j=i+1;j<q.length;j++){const a=q[i],b=q[j],d=(a.X-b.X)**2+(a.Y-b.Y)**2+(a.Z-b.Z)**2;
+if(d<.12){x.strokeStyle=a.s==b.s?(a.s?'rgba(217,119,6,':'rgba(13,148,136,'):'rgba(124,140,255,';x.strokeStyle+=(.5*(1-d/.12)*(.55+.45*(a.Z+1)/2))+')';x.beginPath();x.moveTo(a.sx,a.sy);x.lineTo(b.sx,b.sy);x.stroke()}}
+for(const a of q){const r=1.6+2.2*(a.Z+1)/2;x.fillStyle=a.s?'#d97706':'#0d9488';x.globalAlpha=.45+.55*(a.Z+1)/2;x.beginPath();x.arc(a.sx,a.sy,r,0,7);x.fill()}
+x.globalAlpha=1;
+/* waveform ring (speech) */
+x.strokeStyle='rgba(13,148,136,.35)';x.beginPath();for(let i=0;i<=120;i++){const u=i/120*Math.PI*2,r=R*1.32+Math.sin(u*9+t*6)*9;const X=Math.cos(u)*r,Y=Math.sin(u)*r*.32;const yy=Y*Math.cos(.6)+0,px=W/2+X,py=H/2+yy+Math.sin(t)*0;i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();
+if(!RM)requestAnimationFrame(fr)}
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;if(RM)t=1;fr()})();
+/* ---------- scroll reveal + 3D tilt ---------- */
+const io=new IntersectionObserver(e=>e.forEach(v=>v.isIntersecting&&v.target.classList.add('on')),{threshold:.12});
+const obs=()=>document.querySelectorAll('.rv:not(.on)').forEach(e=>io.observe(e));
+document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.card');document.querySelectorAll('.card').forEach(k=>{if(k!==c)k.style.transform=''});
+if(c&&!c.closest('.lock')){const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(700px) rotateY(${px*9}deg) rotateX(${-py*9}deg) translateY(-4px)`}});
+/* ---------- content ---------- */
+const AUD='আজকে আমরা CPU scheduling-এর তিনটা algorithm আলোচনা করব।',OCR='CPU Scheduling — 1. FCFS  2. SJF  3. Round Robin';
+const SUM=['CPU scheduling-এর তিনটি algorithm নিয়ে আলোচনা করা হচ্ছে। (algorithm-গুলোর নাম অজানা)',
+'CPU scheduling এবং এর তিনটি algorithm — FCFS, SJF ও Round Robin — নিয়ে আলোচনা করা হচ্ছে।',
+'CPU scheduling-এর তিনটি algorithm — FCFS, SJF ও Round Robin — স্লাইডের তালিকা অনুযায়ী আলোচনা করা হচ্ছে।'];
+function typ(el,txt,sp=22){clearInterval(el._t);el.textContent='';let i=0;el._t=setInterval(()=>{el.textContent=txt.slice(0,++i);if(i>=txt.length)clearInterval(el._t)},sp)}
+function demo(k){typ($('#dA'),AUD);$('#dO').innerHTML=k>0?OCR.replace(/FCFS|SJF|Round Robin/g,m=>`<span class="chip">${m}</span>`):'<span style="color:var(--mut)">Visual branch disabled</span>';typ($('#dS'),SUM[k],28)}
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');demo(+b.dataset.k)};demo(0);
+const ST=[['Upload & audio extract','FFmpeg pulls the audio track and samples video frames.'],['Speech to text','Whisper transcribes Bangla and code-switched English terms.'],['Keyframes','OpenCV finds moments where a slide or board changes.'],['OCR','Bangla/English text is read from slides and whiteboards.'],['Timestamp alignment','Speech and visual text are placed on one timeline.'],['Incremental summary','BanglaT5 writes a summary for each time window.']];
+$('#flow').innerHTML=ST.map((s,i)=>`<div class="card"><div class="n">${i+1}</div><h3>${s[0]}</h3><p>${s[1]}</p></div>`).join('');
+const FT=[['Core (this thesis)',['Video upload and processing','Live / incremental processing','Bangla/Banglish speech-to-text','Slide and whiteboard OCR','Timestamp alignment','Incremental Bangla summary']],
+['Advanced summaries',['“What did I miss?” catch-up','Automatic chapters','Keywords and exam-important content','Short, quick and detailed levels']],
+['Search and AI help',['Search inside and across lectures','Timestamp-linked results','Lecture Q&amp;A','Quiz, MCQ and flashcards']],
+['Personal learning',['Lecture library by subject','Bookmarks and notes','Progress and watch history','Learning statistics']],
+['Export and analytics',['PDF, DOCX, TXT export','Engagement analytics for instructors','Processing logs']],
+['Future',['Meet / Zoom integration','Browser extension','Study rooms','Text-to-speech summary']]];
+$('#fg').innerHTML=FT.map(f=>`<div class="card feat rv"><h3>${f[0]}</h3><ul>${f[1].map(i=>`<li>${i}</li>`).join('')}</ul></div>`).join('');
+/* ---------- auth (browser-side demo; swap fetch() calls for a real API later) ---------- */
+const ls={get:k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+async function hash(s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('ll:'+s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let h=5381;for(const ch of s)h=(h*33^ch.charCodeAt(0))>>>0;return'f'+h}}
+let mode='login',me=ls.get('ll_me');
+function paint(){$('#auth').innerHTML=me?`<span style="margin-right:12px;font-size:15px">${me.name.replace(/</g,'')}</span><button class="btn" onclick="logout()">Logout</button>`:`<button class="btn" onclick="openM('login')">Login</button> <button class="btn p" onclick="openM('signup')">Sign up</button>`;
+$('#lock').style.display=me?'none':'grid';lib()}
+function openM(m){mode=m;$('#m').classList.add('on');$('#mt').textContent=m=='login'?'Welcome back':'Create your account';$('#nmW').style.display=m=='login'?'none':'block';$('#sub').textContent=m=='login'?'Login':'Sign up';$('#sw').textContent=m=='login'?'New here? Sign up':'Have an account? Login';$('#er').textContent=''}
+function closeM(){$('#m').classList.remove('on')}
+$('#sw').onclick=e=>{e.preventDefault();openM(mode=='login'?'signup':'login')};
+$('#sub').onclick=async()=>{const n=$('#nm').value.trim(),e=$('#em').value.trim().toLowerCase(),p=$('#pw').value,u=ls.get('ll_users')||{};
+if(!/^\S+@\S+\.\S+$/.test(e))return $('#er').textContent='Enter a valid email.';if(p.length<6)return $('#er').textContent='Password needs 6+ characters.';
+const h=await hash(p);
+if(mode=='signup'){if(!n)return $('#er').textContent='Enter your name.';if(u[e])return $('#er').textContent='This email is already registered.';u[e]={name:n,h};ls.set('ll_users',u);me={name:n,email:e}}
+else{if(!u[e]||u[e].h!==h)return $('#er').textContent='Wrong email or password.';me={name:u[e].name,email:e}}
+ls.set('ll_me',me);closeM();paint()};
+function logout(){me=null;localStorage.removeItem('ll_me');paint()}
+$('#m').onclick=e=>{if(e.target.id=='m')closeM()};
+/* ---------- studio ---------- */
+let vf=null;const drop=$('#drop'),fi=$('#file');
+$('#st').innerHTML=ST.map(s=>`<span>${s[0]}</span>`).join('');
+drop.onclick=()=>fi.click();
+['dragover','dragenter'].forEach(v=>drop.addEventListener(v,e=>{e.preventDefault();drop.classList.add('h')}));
+['dragleave','drop'].forEach(v=>drop.addEventListener(v,e=>{e.preventDefault();drop.classList.remove('h')}));
+drop.addEventListener('drop',e=>pick(e.dataTransfer.files[0]));fi.onchange=()=>pick(fi.files[0]);
+function pick(f){if(!f||!f.type.startsWith('video/'))return alert('Please choose a video file.');vf=f;$('#vid').src=URL.createObjectURL(f);$('#vid').hidden=false;drop.innerHTML=`<b>${f.name.replace(/</g,'')}</b><p>${(f.size/1048576).toFixed(1)} MB · click to change</p>`}
+let busy=false;
+$('#run').onclick=async()=>{if(!me)return openM('login');if(!vf)return alert('Upload a video first.');if(busy)return;busy=true;const k=+$('#cfg').value,sp=[...document.querySelectorAll('#st span')];
+$('#dl').hidden=true;$('#oT').textContent=$('#oO').textContent=$('#oS').textContent='—';sp.forEach(s=>s.classList.remove('on'));
+for(let i=0;i<ST.length;i++){sp[i].classList.add('on');$('#pb').style.width=((i+1)/ST.length*100)+'%';
+if(i==1)typ($('#oT'),AUD,18);if(i==3)k>0?typ($('#oO'),OCR,18):$('#oO').textContent='(visual branch off)';if(i==5)typ($('#oS'),SUM[k],24);
+await new Promise(r=>setTimeout(r,1000))}
+/* Real system: POST the file to a Python API (FFmpeg + Whisper + OCR + BanglaT5) and stream results here. This demo shows the sample lecture from the proposal. */
+$('#dl').hidden=false;busy=false;
+const L=ls.get('ll_lib')||[];L.unshift({n:vf.name,s:vf.size,c:['E1','E2','E3'][k],d:new Date().toLocaleDateString(),t:SUM[k]});ls.set('ll_lib',L.slice(0,20));lib()};
+$('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([`Transcript:\n${AUD}\n\nSummary:\n${$('#oS').textContent}`],{type:'text/plain;charset=utf-8'}));a.download='lecture-summary.txt';a.click()};
+function lib(){const L=(ls.get('ll_lib')||[]);$('#libL').innerHTML=me&&L.length?L.map(v=>`<div class="it"><span>${v.n.replace(/</g,'')}<br><small class="bn" style="color:var(--mut)">${v.t}</small></span><span style="text-align:right"><span class="chip">${v.c}</span><br><small>${v.d}</small></span></div>`).join(''):'<p style="color:var(--mut)">Processed lectures will appear here.</p>'}
+/* ---------- lecture player ---------- */
+const CUES=[{t:0,a:'আজকে আমরা শিখব time complexity — মানে একটা algorithm কত দ্রুত চলে।',o:'Time Complexity — Big-O Notation',s:['আজ time complexity নিয়ে আলোচনা শুরু হয়েছে।','Time complexity ও Big-O notation নিয়ে আলোচনা শুরু।','Time complexity ও Big-O notation নিয়ে আলোচনা শুরু।']},
+{t:14,a:'Divide and conquer-এর জন্য recurrence relation হলো এই সূত্রটা।',o:'T(n) = aT(n/b) + f(n)',s:['Recurrence relation আলোচিত হয়েছে। (সূত্র অজানা)','Divide and conquer-এর recurrence: T(n) = aT(n/b) + f(n)।','Divide and conquer-এর recurrence T(n) = aT(n/b) + f(n), যা Master theorem-এর ভিত্তি।']},
+{t:30,a:'বাইনারি সার্চ সাধারণত O লগ n সময় নেয়।',o:'Binary Search → O(log n)',s:['বাইনারি সার্চ দ্রুত, তবে সঠিক জটিলতা বলা হয়নি।','বাইনারি সার্চের time complexity O(log n)।','বাইনারি সার্চের time complexity O(log n), কারণ প্রতি ধাপে search space অর্ধেক হয়।']}];
+let T=0,pl=false,pk=2,lt=0;const wv=$('#wv'),wx=wv.getContext('2d'),fm=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+function render(){const s=T/10;let i=-1;CUES.forEach((c,j)=>{if(s>=c.t)i=j});$('#tm').textContent=fm(s)+' / 0:48';$('#sc').value=T;
+if(i<0){$('#pA').textContent=$('#pO').textContent=$('#pS').textContent='—';return}
+const c=CUES[i],n=Math.floor((s-c.t)*14);$('#pA').textContent=c.a.slice(0,n)+(n<c.a.length?'▌':'');
+$('#pO').textContent=pk?c.o.slice(0,Math.floor((s-c.t)*20)):'(visual branch off)';$('#pS').textContent=CUES.slice(0,i+1).map(x=>x.s[pk]).join(' ')}
+function wave(now){const d=devicePixelRatio||1,W=wv.clientWidth,H=wv.clientHeight;if(wv.width!=W*d){wv.width=W*d;wv.height=H*d}wx.setTransform(d,0,0,d,0,0);wx.clearRect(0,0,W,H);
+const N=Math.floor(W/11),tt=now/1000;for(let i=0;i<N;i++){const a=pl?.25+.75*Math.abs(Math.sin(i*.7+tt*4)*Math.sin(i*.21+tt*1.3)):.12+.1*Math.abs(Math.sin(i*.5));const h=a*H*.9;wx.fillStyle=i/N<T/480?'#2dd4bf':'#2f6f6a';wx.fillRect(i*11,H-h,7,h)}
+if(pl){T=Math.min(480,T+(now-lt)/100);if(T>=480){pl=false;$('#pp').textContent='▶ Play'}render()}lt=now;requestAnimationFrame(wave)}
+requestAnimationFrame(wave);
+$('#pp').onclick=()=>{if(T>=480)T=0;pl=!pl;$('#pp').textContent=pl?'❚❚ Pause':'▶ Play'};
+$('#rs').onclick=()=>{T=0;pl=true;$('#pp').textContent='❚❚ Pause';render()};
+$('#sc').oninput=e=>{T=+e.target.value;render()};
+$('#ptabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#ptabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');pk=+b.dataset.k;render()};
+/* ---------- results table ---------- */
+const M=[['ROUGE-1','Summary overlap with reference',[38.4,46.9,48.1],60],['ROUGE-L','Longest sequence agreement',[31.2,38.7,40.3],60],['BERTScore F1','Semantic similarity to reference',[84.1,88.6,89.4],100],['WER / CER','Transcription error (same ASR for all configs)',['24.8 / 14.2','24.8 / 14.2','24.8 / 14.2'],100,25],['Latency / window','Real-time feasibility',[0.9,1.6,2.3],4]];
+$('#mtb').innerHTML=M.map(r=>`<tr><td><b>${r[0]}</b></td><td style="color:var(--mut)">${r[1]}</td>${r[2].map(v=>{const w=r[4]&&r[0]=='WER / CER'?r[4]:v/r[3]*100;return`<td>${r[0]=='Latency / window'?v+'s':v}<div class="bar ${r[0]=='WER / CER'?'bad':''}"><i style="--w:${w}%"></i></div></td>`}).join('')}</tr>`).join('');
+$('#imgs').onchange=e=>$('#ic').textContent=e.target.files.length+' image(s) added';
+render();
+/* in-page links: scroll inside the page (works even inside preview frames) */
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();const id=a.getAttribute('href').slice(1),t=id&&document.getElementById(id);if(t)t.scrollIntoView({behavior:'smooth'})});
+paint();obs();
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — LectureLens</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+<div id="scrim"></div>
+<aside class="sb" id="sb">
+  <a href="index.html" class="logo">Lecture<i>Lens</i></a>
+  <nav>
+    <div class="lab">MAIN</div>
+    <button class="ni on" data-v="dash">Dashboard</button>
+    <button class="ni" data-v="upload">Upload &amp; Processing</button>
+    <button class="ni" data-v="work">Lecture Workspace</button>
+    <div class="lab">LEARNING</div>
+    <button class="ni" data-v="lib">My Library</button>
+    <button class="ni" data-v="search">Search &amp; AI Assistant</button>
+    <button class="ni" data-v="quiz">Quiz &amp; Flashcards</button>
+    <button class="ni" data-v="notes">Notes &amp; Highlights</button>
+    <div class="lab">INSIGHTS</div>
+    <button class="ni" data-v="stats">Analytics</button>
+    <button class="ni" data-v="prof">Profile</button>
+  </nav>
+  <div class="me"><div class="ava" id="ava">A</div><div><b id="meName">Allfi</b><br><small style="color:var(--mut)">Student</small></div></div>
+</aside>
+
+<header class="tb">
+  <button class="btn sm hb" id="hb" aria-label="Menu">☰</button>
+  <h1 id="ttl">Dashboard</h1>
+  <a class="btn sm" href="index.html">← Home</a>
+  <button class="btn sm" id="thm" aria-label="Toggle theme">☾</button>
+  <button class="btn sm p" data-go="upload">＋ New lecture</button>
+</header>
+
+<main>
+<!-- ===== DASHBOARD HOME ===== -->
+<section class="view on" id="v-dash">
+  <div class="hd">
+    <div><span class="tag">STUDENT DASHBOARD</span>
+      <h2 style="margin-top:12px"><span class="bn" id="greet">স্বাগতম</span>, <span id="gName">Allfi</span> 👋</h2>
+      <p class="bn">আজকের লেকচারগুলো ready — কোথা থেকে শুরু করবেন?</p></div>
+  </div>
+
+  <div class="g4">
+    <div class="card st"><div class="lab">LECTURES PROCESSED</div><b data-n="12">0</b><small>this semester</small></div>
+    <div class="card st"><div class="lab">WATCH TIME</div><b><span data-n="18.5">0</span> h</b><small>summarized</small></div>
+    <div class="card st"><div class="lab">QUIZ QUESTIONS</div><b data-n="240">0</b><small>auto-generated</small></div>
+    <div class="card st"><div class="lab">STUDY STREAK</div><b><span data-n="7">0</span> days</b><small>best: 9 days</small></div>
+  </div>
+
+  <div class="row2">
+    <div class="card">
+      <div class="lab">CONTINUE LEARNING</div>
+      <div class="lec">
+        <div class="th">▶</div>
+        <div style="flex:1;min-width:0">
+          <h3>L06 — Deadlocks</h3>
+          <p>CSE 3203 · Operating Systems · 14 min</p>
+          <div class="bar"><i style="width:64%"></i></div>
+          <div class="row" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <span class="chip">64% watched</span><span class="chip w">E3 · Full</span>
+            <button class="btn p sm" data-go="work" style="margin-left:auto">Resume ▶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="lab">PROCESSING PIPELINE <span class="chip m" style="margin-left:6px">● live</span></div>
+      <div id="jobs"></div>
+    </div>
+  </div>
+
+  <div class="row2" style="grid-template-columns:1.25fr 1fr">
+    <div class="card">
+      <div class="lab">RECENT SUMMARIES</div>
+      <div id="sums"></div>
+    </div>
+    <div class="card">
+      <div class="lab">QUICK ACTIONS</div>
+      <div class="g2" style="gap:12px">
+        <button class="btn qa" data-go="upload"><span>⬆</span>Upload</button>
+        <button class="btn qa" data-go="quiz"><span>⚡</span>Generate Quiz</button>
+        <button class="btn qa" data-go="notes"><span>✎</span>My Notes</button>
+        <button class="btn qa" id="exp"><span>⭳</span>Export</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OTHER VIEWS (built in the next phases) ===== -->
+<section class="view" id="v-upload"></section>
+<section class="view" id="v-work"></section>
+<section class="view" id="v-lib"></section>
+<section class="view" id="v-search"></section>
+<section class="view" id="v-quiz"></section>
+<section class="view" id="v-notes"></section>
+<section class="view" id="v-stats"></section>
+<section class="view" id="v-prof"></section>
+</main>
+
+<div id="toast" style="position:fixed;bottom:22px;right:22px;z-index:60"></div>
+<script src="assets/js/dashboard.js"></script>
+</body>
+</html>
